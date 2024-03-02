@@ -24,4 +24,8 @@ public class SchoolService {
         return SchoolConverter.convertToSchoolCreateResponse(schoolRepository.save(SchoolConverter.convertToSchool(request)));
 
     }
+
+    public void deleteSchool(Long id) {
+        schoolRepository.deleteById(id);
+    }
 }
