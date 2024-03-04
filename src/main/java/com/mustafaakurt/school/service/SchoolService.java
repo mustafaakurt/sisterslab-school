@@ -10,6 +10,7 @@ import com.mustafaakurt.school.repository.SchoolRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,6 +34,7 @@ public class SchoolService {
     public SchoolResponse getSchoolById(Long id) {
         return SchoolConverter.convertToSchoolResponse(findById(id));
     }
+
     private School findById(Long id) {
         return schoolRepository.findById(id).orElseThrow(() -> new SchoolNotFoundException("School not found with id " + id));
     }
@@ -41,5 +43,14 @@ public class SchoolService {
         School school = findById(id);
         school.setSchoolName(request.getSchoolName());
         return SchoolConverter.convertToSchoolResponse(schoolRepository.save(school));
+    }
+
+    public List<School> getSchool(String schoolName) {
+        if (schoolName != null) {
+            return schoolRepository.findAllBySchoolName(schoolName);
+
+        } else {
+            return schoolRepository.findAll();
+        }
     }
 }
