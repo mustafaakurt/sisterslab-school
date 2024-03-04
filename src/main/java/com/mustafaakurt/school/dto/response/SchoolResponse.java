@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SchoolCreateResponse {
+public class SchoolResponse {
 
     private String schoolName;
     private String createdDate;

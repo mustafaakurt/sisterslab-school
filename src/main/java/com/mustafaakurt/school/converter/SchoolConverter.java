@@ -1,7 +1,7 @@
 package com.mustafaakurt.school.converter;
 
 import com.mustafaakurt.school.dto.request.SchoolRequest;
-import com.mustafaakurt.school.dto.response.SchoolCreateResponse;
+import com.mustafaakurt.school.dto.response.SchoolResponse;
 import com.mustafaakurt.school.model.School;
 import lombok.experimental.UtilityClass;
 
@@ -13,10 +13,10 @@ public class SchoolConverter {
         return school;
     }
 
-    public static SchoolCreateResponse convertToSchoolCreateResponse(School school) {
-        SchoolCreateResponse schoolCreateResponse = new SchoolCreateResponse();
-        schoolCreateResponse.setSchoolName(school.getSchoolName());
-        schoolCreateResponse.setCreatedDate(school.getCreatedDate().toString());
-        return schoolCreateResponse;
+    public static SchoolResponse convertToSchoolResponse(School school) {
+        SchoolResponse schoolResponse = new SchoolResponse();
+        schoolResponse.setSchoolName(school.getSchoolName());
+        schoolResponse.setCreatedDate(school.getCreatedDate().toString());
+        return schoolResponse;
     }
 }

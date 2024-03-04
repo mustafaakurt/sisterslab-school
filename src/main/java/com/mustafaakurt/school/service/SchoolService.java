@@ -2,8 +2,9 @@ package com.mustafaakurt.school.service;
 
 import com.mustafaakurt.school.converter.SchoolConverter;
 import com.mustafaakurt.school.dto.request.SchoolRequest;
-import com.mustafaakurt.school.dto.response.SchoolCreateResponse;
+import com.mustafaakurt.school.dto.response.SchoolResponse;
 import com.mustafaakurt.school.exception.SchoolAlreadyExistException;
+import com.mustafaakurt.school.exception.SchoolNotFoundException;
 import com.mustafaakurt.school.model.School;
 import com.mustafaakurt.school.repository.SchoolRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,16 +17,29 @@ import java.util.Optional;
 public class SchoolService {
     private final SchoolRepository schoolRepository;
 
-    public SchoolCreateResponse createSchool(SchoolRequest request) {
+    public SchoolResponse createSchool(SchoolRequest request) {
         Optional<School> school = schoolRepository.findBySchoolName(request.getSchoolName());
         if (school.isPresent()) {
             throw new SchoolAlreadyExistException("Schoolname already exists with name + " + request.getSchoolName());
         }
-        return SchoolConverter.convertToSchoolCreateResponse(schoolRepository.save(SchoolConverter.convertToSchool(request)));
+        return SchoolConverter.convertToSchoolResponse(schoolRepository.save(SchoolConverter.convertToSchool(request)));
 
     }
 
     public void deleteSchool(Long id) {
         schoolRepository.deleteById(id);
+    }
+
+    public SchoolResponse getSchoolById(Long id) {
+        return SchoolConverter.convertToSchoolResponse(findById(id));
+    }
+    private School findById(Long id) {
+        return schoolRepository.findById(id).orElseThrow(() -> new SchoolNotFoundException("School not found with id " + id));
+    }
+
+    public SchoolResponse updateSchool(Long id, SchoolRequest request) {
+        School school = findById(id);
+        school.setSchoolName(request.getSchoolName());
+        return SchoolConverter.convertToSchoolResponse(schoolRepository.save(school));
     }
 }
